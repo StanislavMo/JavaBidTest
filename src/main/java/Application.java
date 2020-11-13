@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Base64;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
@@ -48,7 +49,12 @@ public class Application
                 bid.setId(((HashMap<String,HashMap<String,String>>)jsonBidList.get(i)).get("bid").get("id"));
                 bid.setTs(((HashMap<String,HashMap<String,String>>)jsonBidList.get(i)).get("bid").get("ts"));
                 bid.setTy(((HashMap<String,HashMap<String,String>>)jsonBidList.get(i)).get("bid").get("ty"));
-                bid.setPl(((HashMap<String,HashMap<String,String>>)jsonBidList.get(i)).get("bid").get("pl"));
+
+                String pl = ((HashMap<String,HashMap<String,String>>)jsonBidList.get(i)).get("bid").get("pl");
+                byte[] plBytes = Base64.getDecoder().decode(pl);
+                String plString = new String(plBytes);
+
+                bid.setPl(plString);
 
                 bidsList.add(bid);
 
